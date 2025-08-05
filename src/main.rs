@@ -32,22 +32,21 @@ async fn main() {
                 draw_circle(px[i].0, px[i].1, 3.0, WHITE);
             }
         }
-
-        if !px.is_empty() && px.len() > 2  && is_key_released(KeyCode::Enter)  {
+        if !px.is_empty() && px.len() > 2 && is_key_released(KeyCode::Enter) {
             for i in 0..px.len() - 1 {
                 draw_line(px[i].0, px[i].1, px[i + 1].0, px[i + 1].1, 1.0, RED);
             }
         }
 
         if is_key_released(KeyCode::Enter) &&  px.len() > 2  {
-            
             smoothy.clear();
             smoothy.push(px.clone());
-
             for s in 0..max_steps {
                 let prev = &smoothy[s];
                 let mut new_px = Vec::new();
-                for j in 0..prev.len() - 1 {
+                let n = prev.len();
+                new_px.push(prev[0]);
+                for j in 0..n - 1 {
                     let q = (
                         0.75 * prev[j].0 + 0.25 * prev[j + 1].0,
                         0.75 * prev[j].1 + 0.25 * prev[j + 1].1,
@@ -59,9 +58,10 @@ async fn main() {
                     new_px.push(q);
                     new_px.push(r);
                 }
+                new_px.push(prev[n - 1]);
                 smoothy.push(new_px);
             }
-            step = 0; 
+            step = 0;
             frame_count = 0;
             animation_started = true;
         }
@@ -71,13 +71,12 @@ async fn main() {
             for i in 0..current.len() - 1 {
                 draw_line(current[i].0, current[i].1, current[i + 1].0, current[i + 1].1, 2.0, BLUE);
             }
-
             frame_count += 1;
             if frame_count >= animation_speed {
                 step += 1;
                 frame_count = 0;
                 if step >= smoothy.len() {
-                    step = 0; 
+                    step = 0;
                 }
             }
         }
