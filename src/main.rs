@@ -5,6 +5,7 @@ use macroquad::prelude::*;
 async fn main() {
     let mut px: Vec<(f32, f32)> = Vec::new();
     let mut step = 0;
+    
     let max_steps = 7;
     let mut smoothy: Vec<Vec<(f32, f32)>> = Vec::new();
     let mut frame_count: u32 = 0; 
@@ -18,8 +19,8 @@ async fn main() {
         }
         if !px.is_empty()  {
             for i in 0..px.len() {
-                draw_circle(px[i].0, px[px.len()-1].1, 3.0, WHITE);
-            }  
+                draw_circle(px[i].0, px[i].1, 3.0, WHITE);
+            }
         }
 
         if !px.is_empty() && px.len() > 2  && is_key_released(KeyCode::Enter) {
@@ -66,7 +67,7 @@ async fn main() {
             }
 
             frame_count += 1;
-            if frame_count % 120 == 0 {
+            if frame_count % 100 == 0 {
                 step += 1;
                 if step > max_steps {
                     step = max_steps;
