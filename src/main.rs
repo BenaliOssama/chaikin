@@ -39,7 +39,7 @@ async fn main() {
             }
         }
 
-        if is_key_released(KeyCode::Enter)  {
+        if is_key_released(KeyCode::Enter) &&  px.len() > 2  {
             
             smoothy.clear();
             smoothy.push(px.clone());
