@@ -77,7 +77,7 @@ async fn main() {
                 step += 1;
                 frame_count = 0;
                 if step >= smoothy.len() {
-                    step = smoothy.len() - 1; 
+                    step = 0; 
                 }
             }
         }
