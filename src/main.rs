@@ -22,7 +22,7 @@ async fn main() {
         };
         draw_text(&step_text, 10.0, 30.0, 24.0, WHITE);
         
-        if is_mouse_button_released(MouseButton::Left) {
+        if is_mouse_button_released(MouseButton::Left) && !animation_started {
             let p1 = mouse_position();
             println!("{:?}", p1);
             px.push(p1);
@@ -33,13 +33,13 @@ async fn main() {
             }
         }
 
-        if !px.is_empty() && px.len() > 2  && is_key_released(KeyCode::Enter) {
+        if !px.is_empty() && px.len() > 2  && is_key_released(KeyCode::Enter)  {
             for i in 0..px.len() - 1 {
                 draw_line(px[i].0, px[i].1, px[i + 1].0, px[i + 1].1, 1.0, RED);
             }
         }
 
-        if is_key_released(KeyCode::Enter) {
+        if is_key_released(KeyCode::Enter)  {
             
             smoothy.clear();
             smoothy.push(px.clone());
