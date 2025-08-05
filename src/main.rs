@@ -1,7 +1,7 @@
 use std::process::exit;
 use macroquad::prelude::*;
 
-#[macroquad::main("MyGame")]
+#[macroquad::main("chaikin")]
 async fn main() {
     let mut px: Vec<(f32, f32)> = Vec::new();
     let mut step = 0;
@@ -10,7 +10,7 @@ async fn main() {
     let max_steps = 6; 
     let mut smoothy: Vec<Vec<(f32, f32)>> = Vec::new();
     let mut frame_count: u32 = 0; 
-    let mut animation_speed = 60; 
+    let animation_speed = 60; 
 
     loop {
         clear_background(BLACK);
@@ -66,7 +66,7 @@ async fn main() {
             animation_started = true;
         }
 
-        if step >= 0 && step < smoothy.len() {
+        if step < smoothy.len() {
             let current = &smoothy[step];
             for i in 0..current.len() - 1 {
                 draw_line(current[i].0, current[i].1, current[i + 1].0, current[i + 1].1, 2.0, BLUE);
