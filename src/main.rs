@@ -37,7 +37,7 @@ async fn main() {
                 draw_circle_lines(px[i].0, px[i].1, 3.0, 1.0, WHITE);
             }
         }
-        if !px.is_empty() && px.len() >= 2 && is_key_released(KeyCode::Enter) {
+        if px.len() >= 2 && is_key_released(KeyCode::Enter) {
             for i in 0..px.len() - 1 {
                 draw_line(px[i].0, px[i].1, px[i + 1].0, px[i + 1].1, 1.0, RED);
             }
