@@ -22,6 +22,12 @@ async fn main() {
         };
         draw_text(&step_text, 10.0, 30.0, 24.0, WHITE);
         
+        if is_key_pressed(KeyCode::C) {
+            animation_started = false;
+            px.clear();
+            smoothy.clear();
+        }
+        
         if is_mouse_button_released(MouseButton::Left) && !animation_started {
             let p1 = mouse_position();
             println!("{:?}", p1);
@@ -80,7 +86,7 @@ async fn main() {
                 }
             }
         }
-
+        
         if is_key_released(KeyCode::Escape) {
             exit(1);
         }
