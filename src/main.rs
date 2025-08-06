@@ -12,6 +12,9 @@ async fn main() {
     let mut frame_count: u32 = 0; 
     let animation_speed = 60; 
 
+    let warning_text = "Warning: \n\tThere should be at least 2 points to start animation";
+    let mut warning = false; 
+
     loop {
         clear_background(BLACK);
         
@@ -21,7 +24,9 @@ async fn main() {
             format!("Step: 0/{}", max_steps + 1)
         };
         draw_text(&step_text, 10.0, 30.0, 24.0, WHITE);
-        
+        if warning {
+            draw_text(warning_text , 10.0, 70.0, 18.0, YELLOW);
+        } 
         if is_key_pressed(KeyCode::C) {
             animation_started = false;
             px.clear();
@@ -29,6 +34,7 @@ async fn main() {
         }
         
         if is_mouse_button_released(MouseButton::Left) && !animation_started {
+            warning = false;
             let p1 = mouse_position();
             px.push(p1);
         }
@@ -41,6 +47,8 @@ async fn main() {
             for i in 0..px.len() - 1 {
                 draw_line(px[i].0, px[i].1, px[i + 1].0, px[i + 1].1, 1.0, RED);
             }
+        }else if px.len() < 2 && is_key_released(KeyCode::Enter)  {
+            warning = true;
         }
 
         if is_key_released(KeyCode::Enter) &&  px.len() >= 2  {
@@ -93,3 +101,4 @@ async fn main() {
         next_frame().await;
     }
 }
+
