@@ -12,7 +12,7 @@ async fn main() {
     let mut frame_count: u32 = 0; 
     let animation_speed = 60; 
 
-    let warning_text = "Warning: \n\tThere should be at least 2 points to start animation";
+    let warning_text = "Warning: \n\tThere should be at least 2 points to draw a line and 3 for animation";
     let mut warning = false; 
 
     loop {
@@ -28,6 +28,7 @@ async fn main() {
             draw_text(warning_text , 10.0, 70.0, 18.0, YELLOW);
         } 
         if is_key_pressed(KeyCode::C) {
+            warning = false;
             animation_started = false;
             px.clear();
             smoothy.clear();
@@ -43,40 +44,39 @@ async fn main() {
                 draw_circle_lines(px[i].0, px[i].1, 3.0, 1.0, WHITE);
             }
         }
-        if px.len() >= 2 && is_key_released(KeyCode::Enter) {
-            for i in 0..px.len() - 1 {
-                draw_line(px[i].0, px[i].1, px[i + 1].0, px[i + 1].1, 1.0, RED);
-            }
-        }else if px.len() < 2 && is_key_released(KeyCode::Enter)  {
-            warning = true;
-        }
 
-        if is_key_released(KeyCode::Enter) &&  px.len() >= 2  {
-            smoothy.clear();
-            smoothy.push(px.clone());
-            for s in 0..max_steps {
-                let prev = &smoothy[s];
-                let mut new_px = Vec::new();
-                let n = prev.len();
-                new_px.push(prev[0]);
-                for j in 0..n - 1 {
-                    let q = (
-                        0.75 * prev[j].0 + 0.25 * prev[j + 1].0,
-                        0.75 * prev[j].1 + 0.25 * prev[j + 1].1,
-                    );
-                    let r = (
-                        0.25 * prev[j].0 + 0.75 * prev[j + 1].0,
-                        0.25 * prev[j].1 + 0.75 * prev[j + 1].1,
-                    );
-                    new_px.push(q);
-                    new_px.push(r);
+        if is_key_released(KeyCode::Enter) {
+            if px.len() >= 2 {
+                smoothy.clear();
+                smoothy.push(px.clone());
+                if px.len() > 2 {
+                    for s in 0..max_steps {
+                        let prev = &smoothy[s];
+                        let mut new_px = Vec::new();
+                        let n = prev.len();
+                        new_px.push(prev[0]);
+                        for j in 0..n - 1 {
+                            let q = (
+                                0.75 * prev[j].0 + 0.25 * prev[j + 1].0,
+                                0.75 * prev[j].1 + 0.25 * prev[j + 1].1,
+                            );
+                            let r = (
+                                0.25 * prev[j].0 + 0.75 * prev[j + 1].0,
+                                0.25 * prev[j].1 + 0.75 * prev[j + 1].1,
+                            );
+                            new_px.push(q);
+                            new_px.push(r);
+                        }
+                        new_px.push(prev[n - 1]);
+                        smoothy.push(new_px);
+                    }
                 }
-                new_px.push(prev[n - 1]);
-                smoothy.push(new_px);
+                step = 0;
+                frame_count = 0;
+                animation_started = true;
+            } else {
+                warning = true;
             }
-            step = 0;
-            frame_count = 0;
-            animation_started = true;
         }
 
         if step < smoothy.len() {
