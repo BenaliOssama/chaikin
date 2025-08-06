@@ -30,7 +30,6 @@ async fn main() {
         
         if is_mouse_button_released(MouseButton::Left) && !animation_started {
             let p1 = mouse_position();
-            println!("{:?}", p1);
             px.push(p1);
         }
         if !px.is_empty()  {
