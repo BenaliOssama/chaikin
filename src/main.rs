@@ -87,7 +87,7 @@ async fn main() {
         }
         
         if is_key_released(KeyCode::Escape) {
-            exit(1);
+            exit(0);
         }
 
         next_frame().await;
