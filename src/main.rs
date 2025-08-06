@@ -22,23 +22,28 @@ async fn main() {
         };
         draw_text(&step_text, 10.0, 30.0, 24.0, WHITE);
         
+        if is_key_pressed(KeyCode::C) {
+            animation_started = false;
+            px.clear();
+            smoothy.clear();
+        }
+        
         if is_mouse_button_released(MouseButton::Left) && !animation_started {
             let p1 = mouse_position();
-            println!("{:?}", p1);
             px.push(p1);
         }
         if !px.is_empty()  {
             for i in 0..px.len() {
-                draw_circle(px[i].0, px[i].1, 3.0, WHITE);
+                draw_circle_lines(px[i].0, px[i].1, 3.0, 1.0, WHITE);
             }
         }
-        if !px.is_empty() && px.len() > 2 && is_key_released(KeyCode::Enter) {
+        if !px.is_empty() && px.len() >= 2 && is_key_released(KeyCode::Enter) {
             for i in 0..px.len() - 1 {
                 draw_line(px[i].0, px[i].1, px[i + 1].0, px[i + 1].1, 1.0, RED);
             }
         }
 
-        if is_key_released(KeyCode::Enter) &&  px.len() > 2  {
+        if is_key_released(KeyCode::Enter) &&  px.len() >= 2  {
             smoothy.clear();
             smoothy.push(px.clone());
             for s in 0..max_steps {
@@ -80,7 +85,7 @@ async fn main() {
                 }
             }
         }
-
+        
         if is_key_released(KeyCode::Escape) {
             exit(1);
         }
