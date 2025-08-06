@@ -34,7 +34,7 @@ async fn main() {
         }
         if !px.is_empty()  {
             for i in 0..px.len() {
-                draw_circle(px[i].0, px[i].1, 3.0, WHITE);
+                draw_circle_lines(px[i].0, px[i].1, 3.0, 1.0, WHITE);
             }
         }
         if !px.is_empty() && px.len() >= 2 && is_key_released(KeyCode::Enter) {
