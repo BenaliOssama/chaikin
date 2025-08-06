@@ -38,13 +38,13 @@ async fn main() {
                 draw_circle(px[i].0, px[i].1, 3.0, WHITE);
             }
         }
-        if !px.is_empty() && px.len() > 2 && is_key_released(KeyCode::Enter) {
+        if !px.is_empty() && px.len() >= 2 && is_key_released(KeyCode::Enter) {
             for i in 0..px.len() - 1 {
                 draw_line(px[i].0, px[i].1, px[i + 1].0, px[i + 1].1, 1.0, RED);
             }
         }
 
-        if is_key_released(KeyCode::Enter) &&  px.len() > 2  {
+        if is_key_released(KeyCode::Enter) &&  px.len() >= 2  {
             smoothy.clear();
             smoothy.push(px.clone());
             for s in 0..max_steps {
